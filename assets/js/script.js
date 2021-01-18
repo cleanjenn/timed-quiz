@@ -189,6 +189,18 @@ let highScore = function(event) {
         }
     }
 };
+// add function to sore the data and load the scores
+loadScores = function() {
+    highScores = localStorage.getItem("scores");
+    if (!highScores) {
+        highScores = [];
+        return false;
+    }
+    highScores = JSON.parse(highScores);
+};
 //finish off with event listeners 
 startBtn.addEventListener('click', startQuiz);
 messageEl.addEventListener('click', choicesHandler);
+mainEl.addEventListener("click", highScore);
+
+loadScores();
