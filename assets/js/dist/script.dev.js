@@ -126,6 +126,18 @@ var choicesCompare = function choicesCompare(choicesID) {
     resultEl.innerText = 'Wrong!';
     runQuiz();
   }
+}; //stop the quiz after timer is out
+
+
+var stopQuiz = function stopQuiz() {
+  if (timer < 0) {
+    timer = 0;
+    timerEl.innerText = timer;
+  }
+
+  questionEl.removeAttribute("style");
+  questionEl.textContent = "Let's see how well you know your Java!";
+  messageEl.innerHTML = "<div>\n    You got ".concat(correct, " questions correct and ").concat(wrong, " questions wrong.\n    </div>\n    <div>\n    Your timer score is: ").concat(timer, ".\n    </div>");
 }; //functions for high score and local storage
 //finish off with event listeners 
 

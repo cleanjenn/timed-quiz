@@ -132,6 +132,22 @@ let choicesCompare = function(choicesID) {
         runQuiz();
     }
 };
+//stop the quiz after timer is out
+let stopQuiz = function() {
+    if(timer < 0) {
+        timer = 0;
+        timerEl.innerText = timer;
+    }
+    questionEl.removeAttribute("style");
+    questionEl.textContent = "Let's see how well you know your Java!";
+    messageEl.innerHTML = `<div>
+    You got ${correct} questions correct and ${wrong} questions wrong.
+    </div>
+    <div>
+    Your timer score is: ${timer}.
+    </div>`;
+
+};
 //functions for high score and local storage
 //finish off with event listeners 
 startBtn.addEventListener('click', startQuiz);
