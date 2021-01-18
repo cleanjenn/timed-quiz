@@ -43,6 +43,11 @@ h1 {
     font-size: 20px;
 }
 
+.choices-list {
+    display: flex;
+    width: 200px;
+}
+
 .results {
     margin-top: 40px;
     border-top: solid 4px var(--primary);

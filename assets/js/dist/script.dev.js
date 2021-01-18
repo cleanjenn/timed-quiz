@@ -11,43 +11,43 @@ resultEl = document.querySelector('#results'); //variables for questions and ans
 var randQuestions = [{
   q: 'What does pseudo code mean?',
   choices: ['Hints of the Ocean', 'Thin noodles', 'Simplified Terms', 'Geometric Code'],
-  a: 'c'
+  a: '3'
 }, {
   q: 'When a user views a page containing a JavaScript program, which machine actually executes the script?',
   choices: ['The Users machine running a Web browser', 'The Web server', 'A central machine deep within Neptunes corporate offices', 'None of the above'],
-  a: 'a'
+  a: '1'
 }, {
   q: 'What are variables used for in JavaScript Programs?',
   choices: ['Storing numbers, dates, or other values', 'Varying randomly', 'Causing high-school algebra flashbacks', 'None of the above'],
-  a: 'a'
+  a: '1'
 }, {
   q: 'What should appear at the very end of your JavaScript ex. The <script LANGUAGE="JavaScript">tag',
   choices: ['The </script>', 'The <script>', 'The END statement', 'None of the above'],
-  a: 'a'
+  a: '1'
 }, {
   q: 'What is the correct JavaScript syntax to write "Hello World"?',
   choices: ['System.out.println("Hello World")', 'println ("Hello World")', 'document.write("Hello World")', 'response.write("Hello World")'],
-  a: 'c'
+  a: '3'
 }, {
   q: 'JavaScript entities start with _______ and end with _________.',
   choices: ['Semicolon, colon', 'Semicolon, Ampersand', 'Ampersand, colon', 'Ampersand, semicolon'],
-  a: 'd'
+  a: '4'
 }, {
   q: 'Using _______ statement is how you test for a specific condition.',
   choices: ['Select', 'If', 'Switch', 'For'],
-  a: 'b'
+  a: '2'
 }, {
   q: 'How to create a Date object in JavaScript?',
   choices: ['dateObjectName = new Date([parameters])', 'dateObjectName.new Date([parameters])', 'dateObjectName := new Date([parameters])', 'dateObjectName Date([parameters])'],
-  a: 'a'
+  a: '1'
 }, {
   q: 'The _______ method of an Array object adds and/or removes elements from an array.',
   choices: ['Reverse', 'Shift', 'Slice', 'Splice'],
-  a: 'd'
+  a: '4'
 }, {
   q: 'The syntax of close method for document object is ______________.',
   choices: ['Close(doC.', 'Close(object)', 'Close(val)', 'Close()'],
-  a: 'd'
+  a: '4'
 }]; //variables for timer 
 //variables for answers right and wrong
 
@@ -92,11 +92,11 @@ var runQuiz = function runQuiz() {
     questionEl.textContent = question;
     messageEl.textContent = ''; //clear the div content
 
-    for (var i = 0; i < options.length; i++) {
+    for (i = 0; i < choices.length; i++) {
       var btnEl = document.createElement('button');
-      btnEl.className = "btn choice-list";
+      btnEl.className = "btn choices-list";
       btnEl.setAttribute("btn-id", [i + 1]);
-      btnEl.textContent = "".concat([i + 1], ", ").concat(options[i]);
+      btnEl.textContent = "".concat([i + 1], ", ").concat(choices[i]);
       messageEl.appendChild(btnEl);
     }
 
@@ -104,18 +104,18 @@ var runQuiz = function runQuiz() {
   }
 };
 
-var choiceHandler = function choiceHandler(event) {
+var choicesHandler = function choicesHandler(event) {
   var targetEl = event.target;
 
-  if (targetEl.matches('.choice-list')) {
-    var choiceID = targetEl.getAttribute('btn-id');
-    choiceCompare(choiceID);
+  if (targetEl.matches('.choices-list')) {
+    var choicesID = targetEl.getAttribute('btn-id');
+    choicesCompare(choicesID);
   }
 }; //function to compare the users choice against the answer
 
 
-var choiceCompare = function choiceCompare(choiceID) {
-  if (choiceID === answer) {
+var choicesCompare = function choicesCompare(choicesID) {
+  if (choicesID === answer) {
     timer += 5;
     correct++;
     resultEl.innerText = 'Correct!';
@@ -131,3 +131,4 @@ var choiceCompare = function choiceCompare(choiceID) {
 
 
 startBtn.addEventListener('click', startQuiz);
+messageEl.addEventListener('click', choicesHandler);
