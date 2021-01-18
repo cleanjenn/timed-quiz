@@ -65,6 +65,7 @@ indexNum = 0;
 play = true;
 correct = 0;
 wrong = 0;
+highScores = [];
 
 
 //variables for score
@@ -77,7 +78,8 @@ let countDown = function() {
         } else {
             timerEl.innerText = timer;
             timerEl.setAttribute('style', 'color: red;');
-            clearInterval(timeInterval)
+            clearInterval(timeInterval);
+            endQuiz();
         }
     }, 1000);
 };
@@ -121,7 +123,7 @@ let choicesHandler = function(event) {
 //function to compare the users choice against the answer
 let choicesCompare = function(choicesID) {
     if (choicesID === answer) {
-        timer += 5;
+        timer += 2;
         correct++;
         resultEl.innerText = 'Correct!';
         runQuiz();
@@ -141,14 +143,52 @@ let stopQuiz = function() {
     questionEl.removeAttribute("style");
     questionEl.textContent = "Let's see how well you know your Java!";
     messageEl.innerHTML = `<div>
-    You got ${correct} questions correct and ${wrong} questions wrong.
-    </div>
-    <div>
-    Your timer score is: ${timer}.
-    </div>`;
+        You got ${correct} questions correct and ${wrong} questions wrong.
+        </div>
+        <div>
+        Your timer score is: ${timer}.
+        </div>`;
+    var formEl = document.createElement("form");
+    formEl.setAttribute("id", "initials-form")
 
+    var inputEl = document.createElement("input");
+    inputEl.setAttribute("type", "text");
+    inputEl.setAttribute("name", "user-initials");
+    inputEl.className = "user-initials";
+    inputEl.setAttribute("placeholder", "Enter Your Initials");
+    formEl.appendChild(inputEl);
+
+    var submitEl = document.createElement("button");
+    submitEl.className = "btn";
+    submitEl.setAttribute("id", "save-initials");
+    submitEl.setAttribute("type", "submit");
+    submitEl.textContent = "Submit";
+    formEl.appendChild(submitEl);
+    messageEl.appendChild(formEl);
 };
 //functions for high score and local storage
+let highScore = function(event) {
+    event.preventDefault();
+
+    targetEl = event.target; 
+    if (targetEl.matches("#save-initials")) { 
+        formEl = document.querySelector(".user-initials");
+        userInitials = formEl.value
+
+        if (!userInitials) { 
+            alert("Please enter your initials before moving on!");
+            return false;
+        } else {
+            var highScoreObj = {
+                initials: userInitials,
+                score: timer
+            };
+            highScores.push(highScoreObj);
+            localStorage.setItem("scores", JSON.stringify(highScores));
+            location.replace("./highscore.html");
+        }
+    }
+};
 //finish off with event listeners 
 startBtn.addEventListener('click', startQuiz);
 messageEl.addEventListener('click', choicesHandler);

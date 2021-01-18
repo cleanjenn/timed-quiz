@@ -55,7 +55,8 @@ var timer = 59;
 indexNum = 0;
 play = true;
 correct = 0;
-wrong = 0; //variables for score
+wrong = 0;
+highScores = []; //variables for score
 //functions for timer, random question selection, quiz start
 
 var countDown = function countDown() {
@@ -67,6 +68,7 @@ var countDown = function countDown() {
       timerEl.innerText = timer;
       timerEl.setAttribute('style', 'color: red;');
       clearInterval(timeInterval);
+      endQuiz();
     }
   }, 1000);
 }; //functions to start the quiz and timer by button 
@@ -116,7 +118,7 @@ var choicesHandler = function choicesHandler(event) {
 
 var choicesCompare = function choicesCompare(choicesID) {
   if (choicesID === answer) {
-    timer += 5;
+    timer += 2;
     correct++;
     resultEl.innerText = 'Correct!';
     runQuiz();
@@ -137,9 +139,47 @@ var stopQuiz = function stopQuiz() {
 
   questionEl.removeAttribute("style");
   questionEl.textContent = "Let's see how well you know your Java!";
-  messageEl.innerHTML = "<div>\n    You got ".concat(correct, " questions correct and ").concat(wrong, " questions wrong.\n    </div>\n    <div>\n    Your timer score is: ").concat(timer, ".\n    </div>");
+  messageEl.innerHTML = "<div>\n        You got ".concat(correct, " questions correct and ").concat(wrong, " questions wrong.\n        </div>\n        <div>\n        Your timer score is: ").concat(timer, ".\n        </div>");
+  var formEl = document.createElement("form");
+  formEl.setAttribute("id", "initials-form");
+  var inputEl = document.createElement("input");
+  inputEl.setAttribute("type", "text");
+  inputEl.setAttribute("name", "user-initials");
+  inputEl.className = "user-initials";
+  inputEl.setAttribute("placeholder", "Enter Your Initials");
+  formEl.appendChild(inputEl);
+  var submitEl = document.createElement("button");
+  submitEl.className = "btn";
+  submitEl.setAttribute("id", "save-initials");
+  submitEl.setAttribute("type", "submit");
+  submitEl.textContent = "Submit";
+  formEl.appendChild(submitEl);
+  messageEl.appendChild(formEl);
 }; //functions for high score and local storage
-//finish off with event listeners 
+
+
+var highScore = function highScore(event) {
+  event.preventDefault();
+  targetEl = event.target;
+
+  if (targetEl.matches("#save-initials")) {
+    formEl = document.querySelector(".user-initials");
+    userInitials = formEl.value;
+
+    if (!userInitials) {
+      alert("Please enter your initials before moving on!");
+      return false;
+    } else {
+      var highScoreObj = {
+        initials: userInitials,
+        score: timer
+      };
+      highScores.push(highScoreObj);
+      localStorage.setItem("scores", JSON.stringify(highScores));
+      location.replace("./highscore.html");
+    }
+  }
+}; //finish off with event listeners 
 
 
 startBtn.addEventListener('click', startQuiz);

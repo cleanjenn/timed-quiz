@@ -48,6 +48,22 @@ h1 {
     width: 200px;
 }
 
+form {
+    margin-left: 80px;
+}
+
+.user-initials {
+    margin-right: 20px;
+    padding-left: 10px;
+    width: 10rem;
+    height: 2rem;
+    border: solid 8px var(--primary);
+    border-radius: 12px;
+    background: var(--tertiary);
+    outline: none;
+    color: var(--primary);
+}
+
 .results {
     margin-top: 40px;
     border-top: solid 4px var(--primary);
