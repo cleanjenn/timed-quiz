@@ -1,8 +1,10 @@
 //start by creating DOM elements
 let timerEl = document.querySelector('#timer');
-let mainEl = document.querySelector('#main');
-let questionEl = document.querySelector('#title');
-let messageEl = document.querySelector('#body');
+mainEl = document.querySelector('#main');
+questionEl = document.querySelector('#title');
+messageEl = document.querySelector('#body');
+startBtn = document.querySelector('#start-quiz');
+resultEl = document.querySelector('#results')
 //variables for questions and answers
 let randQuestions = [
     {
@@ -21,7 +23,7 @@ let randQuestions = [
         a: 'a'
     },
     {
-        q: 'What should appear at the very end of your JavaScript?', break 'The <script LANGUAGE="JavaScript">tag',
+        q: 'What should appear at the very end of your JavaScript ex. The <script LANGUAGE="JavaScript">tag',
         choices: ['The </script>', 'The <script>', 'The END statement', 'None of the above'],
         a: 'a'
     },
@@ -56,9 +58,80 @@ let randQuestions = [
         a: 'd'
     }
 ];
-//vaariables for timer 
+//variables for timer 
 //variables for answers right and wrong
+let timer = 59;
+indexNum = 0;
+play = true;
+correct = 0;
+wrong = 0;
+
+
 //variables for score
 //functions for timer, random question selection, quiz start
+let countDown = function() {
+    let timeInterval = setInterval(function (){
+        if(timer > 0 && play === true) {
+            timerEl.innerText = timer;
+            timer--;
+        } else {
+            timerEl.innerText = timer;
+            timerEl.setAttribute('style', 'color: red;');
+            clearInterval(timeInterval)
+        }
+    }, 1000);
+};
+
+//functions to start the quiz and timer by button 
+let startQuiz = function() {
+    countDown();
+    questionEl.setAttribute("style", "text-align: left;");
+    messageEl.setAttribute("style", "margin-left: 25px; width: fit-content;");
+    startBtn.remove();
+    runQuiz();
+};
+//function to process through the quiz questions 
+let runQuiz = function() {
+    if (indexNum === randQuestions.length) { //end the quiz is indexNum is null
+        play = false;
+    } else {
+        let question = randQuestions[indexNum].q;
+        choices = randQuestions[indexNum].choices;
+        answer = randQuestions[indexNum].a;
+        questionEl.textContent = question;
+        messageEl.textContent = '';   //clear the div content
+        for (let i = 0; i < options.length; i++) {
+            let btnEl = document.createElement('button');
+            btnEl.className = "btn choice-list";
+            btnEl.setAttribute("btn-id", [i+1]);
+            btnEl.textContent = `${[i+1]}, ${options[i]}`;
+            messageEl.appendChild(btnEl);
+        }
+        indexNum++;
+    }
+};
+
+let choiceHandler = function(event) {
+    let targetEl = event.target;
+    if (targetEl.matches('.choice-list')) {
+        let choiceID = targetEl.getAttribute('btn-id');
+        choiceCompare(choiceID);
+    }
+};
+//function to compare the users choice against the answer
+let choiceCompare = function(choiceID) {
+    if (choiceID === answer) {
+        timer += 5;
+        correct++;
+        resultEl.innerText = 'Correct!';
+        runQuiz();
+    } else{
+        timer -= 10;
+        wrong++;
+        resultEl.innerText = 'Wrong!';
+        runQuiz();
+    }
+};
 //functions for high score and local storage
 //finish off with event listeners 
+startBtn.addEventListener('click', startQuiz);

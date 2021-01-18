@@ -42,3 +42,29 @@ h1 {
     padding: 20px 0;
     font-size: 20px;
 }
+
+.results {
+    margin-top: 40px;
+    border-top: solid 4px var(--primary);
+}
+
+.btn {
+    color: var(--primary);
+    border: none;
+    outline: none;
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: var(--tertairy);
+    border-radius: 12px;
+}
+
+.btn:hover {
+    background: var(--secondary);
+}
+
+/* media queries */
+@media screen and (max-width: 720px) {
+    main {
+        width: 100%;
+    }
+}
