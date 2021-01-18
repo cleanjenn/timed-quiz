@@ -34,7 +34,7 @@ main {
 }
 
 h1 {
-    margin-top: 80px;
+    margin-top: 40px;
     padding: 20px;
     font-size: 28px;
 }
@@ -68,8 +68,8 @@ form {
 }
 
 .results {
-    margin-top: 40px;
     border-top: solid 4px var(--primary);
+    padding: 40px;
 }
 
 .btn {

@@ -79,13 +79,26 @@ let countDown = function() {
             timerEl.innerText = timer;
             timerEl.setAttribute('style', 'color: red;');
             clearInterval(timeInterval);
-            endQuiz();
+            stopQuiz();
         }
     }, 1000);
+};
+//add a shuffle for the questions 
+let shuffle = function(array) {
+    let elm = array.length, temp, index;
+    while (elm > 0) {
+        index = Math.floor(Math.random() * elm);
+        elm--;
+        temp = array[elm];
+        array[elm] = array[index];
+        array[index] = temp;
+    }
+    return array;
 };
 
 //functions to start the quiz and timer by button 
 let startQuiz = function() {
+    shuffle(randQuestions);
     countDown();
     questionEl.setAttribute("style", "text-align: left;");
     messageEl.setAttribute("style", "margin-left: 25px; width: fit-content;");
@@ -101,8 +114,8 @@ let runQuiz = function() {
         choices = randQuestions[indexNum].choices;
         answer = randQuestions[indexNum].a;
         questionEl.textContent = question;
-        messageEl.textContent = '';   //clear the div content
-        for (i = 0; i < choices.length; i++) {
+        messageEl.textContent = "";   //clear the div content
+        for (let i = 0; i < choices.length; i++) {
             let btnEl = document.createElement('button');
             btnEl.className = "btn choices-list";
             btnEl.setAttribute("btn-id", [i+1]);
@@ -142,23 +155,25 @@ let stopQuiz = function() {
     }
     questionEl.removeAttribute("style");
     questionEl.textContent = "Let's see how well you know your Java!";
-    messageEl.innerHTML = `<div>
-        You got ${correct} questions correct and ${wrong} questions wrong.
-        </div>
-        <div>
-        Your timer score is: ${timer}.
-        </div>`;
-    var formEl = document.createElement("form");
+    messageEl.innerHTML = 
+                            `<div>
+                            You got ${correct} questions correct and ${wrong} questions wrong.
+                            </div>
+                            <div>
+                            Your timer score is: ${timer}.
+                            </div>`;
+
+    let formEl = document.createElement("form");
     formEl.setAttribute("id", "initials-form")
 
-    var inputEl = document.createElement("input");
+    let inputEl = document.createElement("input");
     inputEl.setAttribute("type", "text");
     inputEl.setAttribute("name", "user-initials");
     inputEl.className = "user-initials";
     inputEl.setAttribute("placeholder", "Enter Your Initials");
     formEl.appendChild(inputEl);
 
-    var submitEl = document.createElement("button");
+    let submitEl = document.createElement("button");
     submitEl.className = "btn";
     submitEl.setAttribute("id", "save-initials");
     submitEl.setAttribute("type", "submit");
@@ -170,10 +185,11 @@ let stopQuiz = function() {
 let highScore = function(event) {
     event.preventDefault();
 
-    targetEl = event.target; 
-    if (targetEl.matches("#save-initials")) { 
-        formEl = document.querySelector(".user-initials");
-        userInitials = formEl.value
+    let targetEl = event.target; 
+    if (targetEl.matches('#save-initials')) { 
+
+        let formEl = document.querySelector('.user-initials');
+        let userInitials = formEl.value
 
         if (!userInitials) { 
             alert("Please enter your initials before moving on!");
@@ -190,7 +206,7 @@ let highScore = function(event) {
     }
 };
 // add function to sore the data and load the scores
-loadScores = function() {
+let loadScores = function() {
     highScores = localStorage.getItem("scores");
     if (!highScores) {
         highScores = [];
